@@ -9,7 +9,7 @@ class Cvs:
         return self.df.columns.values.tolist()
 
     def group_by(self, columns: list, agg_function: str):
-        return self.df.groupby(columns)[agg_function]
+        return self.df.groupby(columns)[agg_function]()
 
     def get_new_df_by_columns(self, columns: list):
         return self.df.filter(columns, axis=1)
