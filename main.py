@@ -1,20 +1,17 @@
-import networkx as nx
-import matplotlib.pyplot as plt
-import numpy
-import pandas as pd
-
-from algorithms import dbscan
-from cvs import Cvs
+from algorithms import dbscan, isolation_forest
+from custom_csv import Csv
 from graph import Graph
 
 if __name__ == '__main__':
     # example how to build graph from cvs file (make sure that you use "from graph import Graph" and not from nx)
-    # cvs = Cvs("./conn250K.csv")
-    # df = cvs.get_new_df_by_columns(["src_bytes", "dst_bytes"])
-    # G = Graph(df, "src_bytes", "dst_bytes")
-    # arr = dbscan(df)
-    # pd.DataFrame(arr).to_csv("test.csv")
+    csv = Csv("./conn250K.csv")
+    input_arr = csv.get_arr_for_predict_by_columns(["src_bytes", "dst_bytes"])
+    print(input_arr)
+    G = Graph(csv.get_df(), "src_bytes", "dst_bytes")
+    res_arr = isolation_forest(input_arr) # we can use dbscan as wall
+    csv.result_to_csv(res_arr)
     # end example
+
 
     # example how to build and draw regular graph
     # numpy.savetxt("test.csv", arr,  delimiter=",", format='%10.0f')
