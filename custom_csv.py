@@ -4,7 +4,7 @@ import pandas as pd
 
 class Csv:
     def __init__(self, file_path: str):
-        self.df = pd.read_csv(file_path, index_col=0)
+        self.df = pd.read_csv(file_path)
 
     def get_df(self):
         return self.df
