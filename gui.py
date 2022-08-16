@@ -3,7 +3,6 @@ from tkinter.ttk import *
 
 import utils
 from graph import Graph
-from utils import *
 from custom_csv import Csv
 
 
@@ -289,6 +288,9 @@ class gui:
         runGraph.place(x=140, y=300)
 
     def createGraph(self, url, user, password, src, dest, w):
+        if src == '' or dest == '':
+            print("Must choose src and dest!")
+            return
         if w == '':
             w = None
         self.drawHtmlGraph(self.csv.get_df(), url, user, password, src, dest, w)
