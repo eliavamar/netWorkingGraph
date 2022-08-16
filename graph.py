@@ -1,22 +1,23 @@
 from neo4j import GraphDatabase
 import nxneo4j as nx
+from tqdm import tqdm
 
 
 class Graph:
-    def __init__(self, df, uri: str, user: str, password: str, src: str, des: str, weight=0):
+    def __init__(self, df, uri: str, user: str, password: str, src: str, des: str, weight=None):
         self.df = df
         self.G = nx.Graph(GraphDatabase.driver(uri=uri, auth=(user, password)))
         self.G.delete_all()
-        if weight != 0:
+        if weight is not None:
             self.G.relationship_type = weight
         print("Start Build Graph!")
-        if weight != 0:
-            for i in range(1, len(df) + 1):
-                self.G.add_edge(str(df[src][i]), str(df[des][i]), weight=str(df[weight][i]))
+        if weight is not None:
+
+            for i in tqdm(df.index, desc="Loading..."):
+                self.G.add_edge(str(df[src][int(i)]), str(df[des][int(i)]), weight=str(df[weight][int(i)]))
         else:
-            for i in range(1, len(df) + 1):
-                self.G.add_edge(str(df[src][i]), str(df[des][i]), weight=0)
-                print(i)
+            for i in tqdm(df.index, desc="Loading..."):
+                self.G.add_edge(str(df[src][int(i)]), str(df[des][int(i)]), weight=0)
         self.G.edges(data=True)
         print("Finish Build Graph!")
 
