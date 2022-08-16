@@ -3,9 +3,10 @@ import nxneo4j as nx
 
 from custom_csv import Csv
 from graph import Graph
+from gui import gui
 
 if __name__ == '__main__':
-
+    gui()
     # neo4j example for custom graph
     # csv = Csv("./x_test.csv")
     # G = Graph(csv.get_df(), "bolt://3.82.246.160:7687", "neo4j", "raises-fiction-voids", "src_ip", "dst_ip")

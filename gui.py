@@ -70,7 +70,7 @@ class gui:
 
         runAlgo = Button(buildAlgo,
                          text='Run',
-                         command=self.buildGraphWindow,
+                         command=lambda : self.playAlgorithems([listCol.get(i) for i in listCol.curselection()], algoStr.get(),outPathString.get()),
                          width=20)
         runAlgo.place(x=140, y=250)
 
@@ -161,6 +161,9 @@ class gui:
         runGraph.place(x=140, y=420)
 
     def createGraph(self, url, user, password, src, dest, w, groupList=None, aggList=None):
+        if w == '': w=None
+        if len(groupList) == 0: groupList = None
+        if len(aggList) == 0: aggList = None
         print(groupList)
         print(aggList)
         if groupList:
@@ -176,7 +179,7 @@ class gui:
         # G.draw_graph(len(df))
 
     def playAlgorithems(self):
-
+        print('temp')
 
     def loadCsv(self, csvFile):
         self.csv = Csv(csvFile)
