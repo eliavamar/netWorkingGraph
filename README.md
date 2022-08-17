@@ -17,7 +17,6 @@ This part spares the user the hassle but does not spare him the basic understand
 
 ![image](https://user-images.githubusercontent.com/74323809/185081248-22788683-94e7-44c8-b5fa-6c14e0d488ea.png)
 
-
 *4.graph with Neo4j*
 If the user chooses to create a graph with the data he has, which represents network traffic, he can use the interface, choose the number of vertices he wants and the requested query. The interface will run immediately and open an html file that displays the data in graph form.
 This process saves the very long running times of neo4j because the code is executed in Python, and saves the need for the user to learn and understand the neo4j language
