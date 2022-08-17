@@ -1,8 +1,8 @@
 # Networking Graph & Security
 
-Eliav Amar
-Shilo Elimelech
-Tehila Abadi
+Eliav Amar\
+Shilo Elimelech\
+Tehila Abadi\
 The project deals with network security, by learning the behavior of the network and identifying anomalies.
 The code enables a better understanding of given data representing network traffic, by turning it into a graph using the Neo4j database at fast runtime, and by using machine learning algorithms without the need for code
 ![image](https://user-images.githubusercontent.com/74323809/185081625-ed632fe0-8158-48aa-8dae-c6f88e9eebb2.png)
