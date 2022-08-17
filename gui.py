@@ -4,6 +4,7 @@ from tkinter.ttk import *
 import utils
 from graph import Graph
 from custom_csv import Csv
+import algorithms
 
 
 class gui:
@@ -35,11 +36,11 @@ class gui:
                                width=20)
         self.buildBut.place(x=140, y=200)
 
-        self.mlBut = Button(self.master,
-                            text='ML Algorithm',
-                            command=self.mlAlgorithemWindow,
-                            width=20)
-        self.mlBut.place(x=140, y=230)
+        # self.mlBut = Button(self.master,
+        #                     text='ML Algorithm',
+        #                     command=self.mlAlgorithemWindow,
+        #                     width=20)
+        # self.mlBut.place(x=140, y=230)
 
         mainloop()
 
@@ -64,20 +65,24 @@ class gui:
 
     def createAlgoConfig(self, win, algo):
         if algo == "dbscan":
+            self.params = utils.get_default_dbscan_params()
             lb1 = Label(win, text=list(utils.get_default_dbscan_params())[0])
             lb1.place(x=100, y=110)
-            lb1String = StringVar()
+            lb1String = IntVar()
             lb1En = Entry(win, width=23, textvariable=lb1String)
+            lb1En.insert(0,self.params[list(utils.get_default_dbscan_params())[0]])
             lb1En.place(x=200, y=110)
             lb2 = Label(win, text=list(utils.get_default_dbscan_params())[1])
             lb2.place(x=100, y=130)
-            lb2String = StringVar()
+            lb2String = IntVar()
             lb2En = Entry(win, width=23, textvariable=lb2String)
+            lb2En.insert(0, self.params[list(utils.get_default_dbscan_params())[1]])
             lb2En.place(x=200, y=130)
             lb3 = Label(win, text=list(utils.get_default_dbscan_params())[2])
             lb3.place(x=100, y=150)
             lb3String = StringVar()
             lb3En = Entry(win, width=23, textvariable=lb3String)
+            lb3En.insert(0, self.params[list(utils.get_default_dbscan_params())[2]])
             lb3En.place(x=200, y=150)
             lb4 = Label(win, text=list(utils.get_default_dbscan_params())[3])
             lb4.place(x=100, y=170)
@@ -88,11 +93,13 @@ class gui:
             lb5.place(x=100, y=190)
             lb5String = StringVar()
             lb5En = Entry(win, width=23, textvariable=lb5String)
+            lb5En.insert(0, self.params[list(utils.get_default_dbscan_params())[4]])
             lb5En.place(x=200, y=190)
             lb6 = Label(win, text=list(utils.get_default_dbscan_params())[5])
             lb6.place(x=100, y=210)
-            lb6String = StringVar()
+            lb6String = IntVar()
             lb6En = Entry(win, width=23, textvariable=lb6String)
+            lb6En.insert(0, self.params[list(utils.get_default_dbscan_params())[5]])
             lb6En.place(x=200, y=210)
             lb7 = Label(win, text=list(utils.get_default_dbscan_params())[6])
             lb7.place(x=100, y=230)
@@ -104,7 +111,7 @@ class gui:
             lb8String = StringVar()
             lb8En = Entry(win, width=23, textvariable=lb8String)
             lb8En.place(x=200, y=250)
-
+            self.newParams = [lb1String, lb2String, lb3String, lb4String, lb5String, lb6String, lb7String, lb8String]
 
             lbCcol = Label(win, text='col')
             lbCcol.place(x=100, y=280)
@@ -124,34 +131,40 @@ class gui:
             runAlgo = Button(win,
                              text='Run',
                              command=lambda: self.playAlgorithems([listCol.get(i) for i in listCol.curselection()],
+                                                                  self.updateNewParam(self.newParams, self.params, algo),
                                                                   algo, outPathString.get()),
                              width=20)
             runAlgo.place(x=140, y=410)
 
         if algo == "isolation_forest":
+            self.params = utils.get_default_isolation_forest_params()
             lb1 = Label(win, text=list(utils.get_default_isolation_forest_params())[0])
             lb1.place(x=100, y=110)
-            lb1String = StringVar()
+            lb1String = IntVar()
             lb1En = Entry(win, width=23, textvariable=lb1String)
+            lb1En.insert(0, 100)
             lb1En.place(x=200, y=110)
             lb2 = Label(win, text=list(utils.get_default_isolation_forest_params())[1])
             lb2.place(x=100, y=130)
             lb2String = StringVar()
             lb2En = Entry(win, width=23, textvariable=lb2String)
+            lb2En.insert(0, self.params[list(utils.get_default_isolation_forest_params())[1]])
             lb2En.place(x=200, y=130)
             lb3 = Label(win, text=list(utils.get_default_isolation_forest_params())[2])
             lb3.place(x=100, y=150)
             lb3String = StringVar()
             lb3En = Entry(win, width=23, textvariable=lb3String)
+            lb3En.insert(0, self.params[list(utils.get_default_isolation_forest_params())[2]])
             lb3En.place(x=200, y=150)
             lb4 = Label(win, text=list(utils.get_default_isolation_forest_params())[3])
             lb4.place(x=100, y=170)
-            lb4String = StringVar()
+            lb4String = IntVar()
             lb4En = Entry(win, width=23, textvariable=lb4String)
+            lb4En.insert(0, self.params[list(utils.get_default_isolation_forest_params())[3]])
             lb4En.place(x=200, y=170)
             lb5 = Label(win, text=list(utils.get_default_isolation_forest_params())[4])
             lb5.place(x=100, y=190)
-            lb5String = StringVar()
+            lb5String = BooleanVar()
             lb5En = Entry(win, width=23, textvariable=lb5String)
             lb5En.place(x=200, y=190)
             lb6 = Label(win, text=list(utils.get_default_isolation_forest_params())[5])
@@ -166,14 +179,17 @@ class gui:
             lb7En.place(x=200, y=230)
             lb8 = Label(win, text=list(utils.get_default_isolation_forest_params())[7])
             lb8.place(x=100, y=250)
-            lb8String = StringVar()
+            lb8String = IntVar()
             lb8En = Entry(win, width=23, textvariable=lb8String)
+            lb8En.insert(0, 0)
             lb8En.place(x=200, y=250)
             lb9 = Label(win, text=list(utils.get_default_isolation_forest_params())[8])
             lb9.place(x=100, y=270)
-            lb9String = StringVar()
+            lb9String = BooleanVar()
             lb9En = Entry(win, width=23, textvariable=lb9String)
             lb9En.place(x=200, y=270)
+            self.newParams = [lb1String, lb2String, lb3String, lb4String, lb5String, lb6String, lb7String, lb8String,
+                              lb9String]
 
             lbCcol = Label(win, text='col')
             lbCcol.place(x=100, y=300)
@@ -190,13 +206,37 @@ class gui:
             outPathEn = Entry(win, width=23, textvariable=outPathString)
             outPathEn.place(x=200, y=400)
 
+            print('listCol.get()')
+            print([listCol.get(i) for i in listCol.curselection()])
+
             runAlgo = Button(win,
                              text='Run',
                              command=lambda: self.playAlgorithems([listCol.get(i) for i in listCol.curselection()],
+                                                                  self.updateNewParam(self.newParams, self.params, algo),
                                                                   algo, outPathString.get()),
                              width=20)
             runAlgo.place(x=140, y=430)
 
+    def updateNewParam(self, newParams, params, algo):
+        # if algo == 'isolation_forest':
+        #     for i, p in enumerate(newParams):
+        #         if p.get() != '' or p.get() != "" or p.get() is not None:
+        #             print('----------')
+        #             print(list(utils.get_default_isolation_forest_params())[i])
+        #             print(p.get())
+        #             params[list(utils.get_default_isolation_forest_params())[i]] = p.get()
+        #             print('----------')
+        #
+        # if algo =='dbscan' :
+        #     for i, p in enumerate(newParams):
+        #         if p.get() != '' or p.get != "" or p.get() is not None:
+        #             print('----------')
+        #             print(list(utils.get_default_dbscan_params())[i])
+        #             print(p.get())
+        #             params[list(utils.get_default_dbscan_params())[i]] = p.get()
+        #             print('----------')
+
+        return params
 
     def buildGraphWindow(self):
         self.loadCsv(self.pathString.get())
@@ -232,14 +272,10 @@ class gui:
         lbSrc = Label(buidGraphWin, text='Src')
         lbDest = Label(buidGraphWin, text='Dest')
         lblWei = Label(buidGraphWin, text='Weight')
-        # lblGro = Label(buidGraphWin, text='Group By')
-        # lblAgg = Label(buidGraphWin, text='Select Agg')
 
         lbSrc.place(x=100, y=180)
         lbDest.place(x=100, y=210)
         lblWei.place(x=100, y=240)
-        # lblGro.place(x=100, y=270)
-        # lblAgg.place(x=100, y=340)
 
         srcStr = StringVar()
         destStr = StringVar()
@@ -255,33 +291,6 @@ class gui:
         comboDest.place(x=200, y=210)
         comboWei.place(x=200, y=240)
 
-        # listGroup = Listbox(buidGraphWin, selectmode="multiple", height=3, width=20, exportselection=False)
-        # listGroup.pack(padx=5, pady=5,
-        #                expand=YES)
-        # listGroup.place(x=200, y=270)
-        #
-        # update = Button(buidGraphWin,
-        #                 text='update',
-        #                 command=lambda: (listGroup.delete(0, END), listGroup.insert(END, srcStr.get()),
-        #                                  listGroup.insert(END, destStr.get()), listGroup.insert(END, weiStr.get())),
-        #                 width=7)
-        # update.place(x=30, y=280)
-        #
-        # listAggr = Listbox(buidGraphWin, selectmode="multiple", height=3, width=20, exportselection=False)
-        # listAggr.curselection()
-        # listAggr.pack(padx=5, pady=5,
-        #               expand=YES)
-        # for item in agg_function_list():
-        #     listAggr.insert(END, item)
-        # listAggr.place(x=200, y=340)
-        # runGraph = Button(buidGraphWin,
-        #                   text='Run',
-        #                   command=lambda: self.createGraph(urlString.get(), userString.get(), passString.get(),
-        #                                                    srcStr.get(),
-        #                                                    destStr.get(), weiStr.get(),
-        #                                                    [listGroup.get(i) for i in listGroup.curselection()],
-        #                                                    [listAggr.get(i) for i in listAggr.curselection()]),
-        #                   width=20)
         runGraph = Button(buidGraphWin,
                           text='Run',
                           command=lambda: self.createGraph(urlString.get(), userString.get(), passString.get(),
@@ -301,8 +310,19 @@ class gui:
         G = Graph(df, url, user, password, src, dest, w)
         G.draw_graph(len(df))
 
-    def playAlgorithems(self, listCol, algoType, outPath):
-        print('temp')
+    def playAlgorithems(self, listCol, params, algoType, outPath):
+        print('******************')
+        print(listCol)
+        print(params)
+        print(algoType)
+        print(outPath)
+        print('******************')
+        if algoType == "isolation_forest":
+            res = algorithms.isolation_forest(self.csv.get_arr_for_predict_by_columns(listCol), params)
+            self.csv.result_to_csv(res, outPath)
+        if algoType == "dbscan":
+            res = algorithms.dbscan(self.csv.get_arr_for_predict_by_columns(listCol), params)
+            self.csv.result_to_csv(res, outPath)
 
     def loadCsv(self, csvFile):
         self.csv = Csv(csvFile)

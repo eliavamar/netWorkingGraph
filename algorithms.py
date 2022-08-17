@@ -31,5 +31,5 @@ def isolation_forest(arr, params=get_default_isolation_forest_params()):
     cls.random_state = params["random_state"]
     cls.verbose = params["verbose"]
     cls.warm_start = params["warm_start"]
-
+    print(arr)
     return cls.fit_predict(arr)
